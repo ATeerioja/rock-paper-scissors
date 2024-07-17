@@ -18,23 +18,28 @@ function getComputerChoice() {
 }
 
 function playGame() {
-  
-  const computerSelection = getComputerChoice();
-  const rock = document.querySelector("#rock");
-  rock.addEventListener("click", () => playRound("rock", computerSelection));
-  
-  const paper = document.querySelector("#paper");
-  paper.addEventListener("click", () => playRound("paper", computerSelection));
-  
-  const scissors = document.querySelector("#scissors");
-  scissors.addEventListener("click", () => playRound("scissors", computerSelection));
 
-  const score = document.createElement("p");
-  const sBanner = document.querySelector(".score-banner")
-  score.textContent = `player ${humanScore} - ${computerScore} computer`;
-  sBanner.appendChild(score);
   
-  function playRound(humanChoice, computerChoice) {
+  const rock = document.querySelector("#rock");
+  const paper = document.querySelector("#paper");
+  const scissors = document.querySelector("#scissors");
+  const sBanner = document.querySelector(".score-banner")
+  const box = document.querySelector(".event-banner");
+  const score = document.createElement("p");
+  scoreChange();
+
+  rock.addEventListener("click", () => playRound("rock"));
+  paper.addEventListener("click", () => playRound("paper"));
+  scissors.addEventListener("click", () => playRound("scissors"));
+  
+  function playRound(humanChoice) {
+    if(humanScore >= 5 || computerScore >= 5) {
+      resetGame()
+      playGame()
+    }
+
+    const computerChoice = getComputerChoice();
+
     //First check is for draws
     if(humanChoice === computerChoice) {
       displayEvent(`Draw ${humanChoice} is the same as ${computerChoice}`);
@@ -45,19 +50,21 @@ function playGame() {
     || humanChoice === "scissors" && computerChoice === "paper"){
       displayEvent(`You win! ${humanChoice} beats ${computerChoice}`);
       humanScore ++;
-      scoreChange();
   
     //if the player didn't win, it has to lose
     } else {
       displayEvent(`You lose! ${computerChoice} beats ${humanChoice}`);
       computerScore ++;
-      scoreChange();
   
     }
+
+    scoreChange();
+    checkGameState();
+
   }
 
   function displayEvent(text) {
-    const box = document.querySelector(".event-banner");
+
     const result = document.createElement("p");
     result.textContent = text;
 
@@ -65,9 +72,31 @@ function playGame() {
   }
 
   function scoreChange() {
-    sBanner.removeChild(score);
+    if(sBanner.childElementCount > 0) {
+      sBanner.removeChild(score);
+    } 
+    
     score.textContent = `player ${humanScore} - ${computerScore} computer`;
     sBanner.appendChild(score);
+
+  }
+
+  function checkGameState() {
+    if(humanScore >= 5) {
+      displayEvent("Game Over Player Wins !!");
+    } else if (computerScore >= 5) {
+      displayEvent("Game Over Computer Wins !!"); 
+    }
+  }
+
+  function resetGame() {
+    computerScore = 0;
+    humanScore = 0;
+    scoreChange();
+
+    for(element of box.querySelectorAll("p")) {
+      box.removeChild(element);
+    }
 
   }
 
