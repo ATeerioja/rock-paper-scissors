@@ -1,7 +1,14 @@
-.button-background {
+div {
   display: flex;
   justify-content: center;
   gap: 30px;
   margin-top: 30px;
+
+}
+
+div.event-banner {
+  gap: 0px;
+  flex-direction: column;
+  align-items: center;
 
 }
