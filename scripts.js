@@ -1,3 +1,6 @@
+let humanScore = 0
+let computerScore = 0
+
 function getComputerChoice() {
   //Get a number between 0 and 1
   let randomNum = Math.random();
@@ -14,23 +17,22 @@ function getComputerChoice() {
 
 }
 
-
-
 function playGame() {
-  
-  let humanScore = 0
-  let computerScore = 0
-  
   
   const computerSelection = getComputerChoice();
   const rock = document.querySelector("#rock");
   rock.addEventListener("click", () => playRound("rock", computerSelection));
-
+  
   const paper = document.querySelector("#paper");
   paper.addEventListener("click", () => playRound("paper", computerSelection));
-
+  
   const scissors = document.querySelector("#scissors");
   scissors.addEventListener("click", () => playRound("scissors", computerSelection));
+
+  const score = document.createElement("p");
+  const sBanner = document.querySelector(".score-banner")
+  score.textContent = `player ${humanScore} - ${computerScore} computer`;
+  sBanner.appendChild(score);
   
   function playRound(humanChoice, computerChoice) {
     //First check is for draws
@@ -43,11 +45,13 @@ function playGame() {
     || humanChoice === "scissors" && computerChoice === "paper"){
       displayEvent(`You win! ${humanChoice} beats ${computerChoice}`);
       humanScore ++;
+      scoreChange();
   
     //if the player didn't win, it has to lose
     } else {
       displayEvent(`You lose! ${computerChoice} beats ${humanChoice}`);
       computerScore ++;
+      scoreChange();
   
     }
   }
@@ -58,9 +62,14 @@ function playGame() {
     result.textContent = text;
 
     box.appendChild(result);
-
   }
 
+  function scoreChange() {
+    sBanner.removeChild(score);
+    score.textContent = `player ${humanScore} - ${computerScore} computer`;
+    sBanner.appendChild(score);
+
+  }
 
 }
 
