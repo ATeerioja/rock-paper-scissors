@@ -15,25 +15,21 @@ function getComputerChoice() {
 
 }
 
-function getHumanChoice() {
-  let answer = prompt("Enter your move (rock, paper, scissors): ").toLowerCase();
-
-  if(answer === "rock") {
-    return(answer);
-  } else if(answer === "paper") {
-    return(answer);
-  } else if(answer === "scissors") {
-    return(answer);
-  }
-
-  return getHumanChoice();
-
-}
-
 function playGame() {
   
   let humanScore = 0
   let computerScore = 0
+  const computerSelection = getComputerChoice();
+
+  const rock = document.querySelector("#rock");
+  rock.addEventListener("click", () => playRound("rock", computerSelection));
+
+  const paper = document.querySelector("#paper");
+  paper.addEventListener("click", () => playRound("paper", computerSelection));
+
+  const scissors = document.querySelector("#scissors");
+  scissors.addEventListener("click", () => playRound("scissors", computerSelection));
+  
 
   function playRound(humanChoice, computerChoice) {
     //First check is for draws
@@ -52,13 +48,6 @@ function playGame() {
   
     }
   }
-
-  
-  const humanSelection = getHumanChoice();
-  const computerSelection = getComputerChoice();
-
-  playRound(humanSelection, computerSelection);
-  
 
   if(humanScore > computerScore) {
     console.log("You Win the Game !!");
